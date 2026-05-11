@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SurgiSafe AI — Predict Risk. Prevent Complications. Save Lives.</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#07111f;
+  --navy2:#0d1f38;
+  --navy3:#122848;
+  --blue:#4da3ff;
+  --blue2:#1d7be0;
+  --teal:#1dcea0;
+  --teal2:#0f9e75;
+  --amber:#f5a623;
+  --red:#e24b4a;
+  --white:#f0f6ff;
+  --muted:#7a9bc4;
+  --border:rgba(77,163,255,0.15);
+  --card:rgba(255,255,255,0.04);
+  --card-hover:rgba(255,255,255,0.07);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* ——— SCROLLBAR ——— */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--navy);}
+::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px;}
+
+/* ——— NOISE OVERLAY ——— */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
+
+
+
+/* ——— BRAND HEADER ——— */
+.brand-header{
+  width:100%;
+  background:rgba(7,17,31,0.97);
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  padding:18px 24px;
+  position:relative;z-index:10;
+  animation:slideDown 0.6s ease both;
+}
+.brand-header-inner{
+  display:flex;align-items:center;gap:16px;
+}
+.brand-logo-big{
+  font-family:'DM Serif Display',serif;
+  font-size:26px;color:var(--white);
+  letter-spacing:-0.5px;
+  display:flex;align-items:center;gap:10px;
+}
+.brand-logo-big span{color:var(--blue);}
+.brand-divider{width:1px;height:32px;background:var(--border);}
+.brand-tagline-top{
+  font-size:12px;color:var(--muted);font-weight:300;
+  letter-spacing:1px;
+}
+
+/* ——— HERO ——— */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:80px 24px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%, rgba(29,126,224,0.12) 0%, transparent 70%),
+             radial-gradient(ellipse 50% 40% at 80% 80%, rgba(29,206,160,0.07) 0%, transparent 60%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(77,163,255,0.04) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(77,163,255,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-content{position:relative;z-index:1;max-width:780px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(77,163,255,0.1);
+  border:0.5px solid rgba(77,163,255,0.3);
+  border-radius:20px;padding:6px 16px;
+  font-size:12px;color:var(--blue);font-weight:500;
+  letter-spacing:0.5px;margin-bottom:28px;
+  animation:fadeUp 0.8s 0.2s ease both;
+}
+.pulse-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal);
+  animation:pulse 2s infinite;
+}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(38px,6vw,72px);
+  line-height:1.1;letter-spacing:-1px;
+  margin-bottom:24px;
+  animation:fadeUp 0.8s 0.35s ease both;
+}
+h1 em{color:var(--blue);font-style:normal;}
+.hero-sub{
+  font-size:clamp(16px,2vw,19px);
+  color:var(--muted);font-weight:300;
+  max-width:560px;margin:0 auto 40px;
+  animation:fadeUp 0.8s 0.5s ease both;
+}
+.hero-actions{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 0.8s 0.65s ease both;
+}
+.btn-primary{
+  background:var(--blue);color:var(--navy);
+  font-size:15px;font-weight:600;
+  padding:14px 32px;border-radius:8px;
+  text-decoration:none;
+  transition:all 0.2s;
+  box-shadow:0 0 32px rgba(77,163,255,0.25);
+}
+.btn-primary:hover{background:#69b5ff;transform:translateY(-2px);box-shadow:0 0 48px rgba(77,163,255,0.4);}
+.btn-ghost{
+  background:transparent;color:var(--white);
+  font-size:15px;font-weight:500;
+  padding:14px 32px;border-radius:8px;
+  text-decoration:none;border:0.5px solid rgba(255,255,255,0.2);
+  transition:all 0.2s;
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.35);}
+
+.hero-stats{
+  display:flex;gap:48px;justify-content:center;
+  margin-top:64px;
+  animation:fadeUp 0.8s 0.8s ease both;
+  flex-wrap:wrap;
+}
+.stat-item{text-align:center;}
+.stat-val{
+  font-family:'DM Serif Display',serif;
+  font-size:36px;color:var(--white);
+  line-height:1;
+}
+.stat-val span{color:var(--blue);}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:0.5px;}
+
+/* ——— SECTIONS ——— */
+section{padding:100px 24px;position:relative;z-index:1;}
+.container{max-width:1080px;margin:0 auto;}
+.section-eyebrow{
+  font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--blue);margin-bottom:14px;
+}
+.section-heading{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(28px,4vw,44px);
+  line-height:1.15;margin-bottom:16px;
+}
+.section-sub{font-size:17px;color:var(--muted);max-width:540px;font-weight:300;}
+
+/* ——— PROBLEM ——— */
+#problem{background:linear-gradient(180deg,var(--navy) 0%,var(--navy2) 100%);}
+.problem-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;margin-top:56px;
+}
+.problem-card{
+  background:var(--card);
+  border:0.5px solid var(--border);
+  border-radius:12px;padding:28px;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s,background 0.3s;
+}
+.problem-card:hover{transform:translateY(-4px);background:var(--card-hover);}
+.problem-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--red);
+}
+.problem-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(226,75,74,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:16px;
+}
+.problem-card h3{font-size:16px;font-weight:500;margin-bottom:8px;}
+.problem-card p{font-size:14px;color:var(--muted);line-height:1.65;}
+
+/* ——— SOLUTION ——— */
+#solution{background:var(--navy2);}
+.solution-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  margin-top:56px;
+}
+@media(max-width:680px){.solution-grid{grid-template-columns:1fr;}}
+.feat-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:12px;padding:28px;
+  transition:transform 0.3s,background 0.3s,border-color 0.3s;
+  position:relative;overflow:hidden;
+}
+.feat-card:hover{transform:translateY(-4px);background:var(--card-hover);border-color:rgba(77,163,255,0.35);}
+.feat-card.featured{
+  grid-column:span 2;
+  background:linear-gradient(135deg,rgba(29,126,224,0.12),rgba(29,206,160,0.06));
+  border-color:rgba(77,163,255,0.3);
+}
+@media(max-width:680px){.feat-card.featured{grid-column:span 1;}}
+.feat-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:rgba(77,163,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:18px;
+  border:0.5px solid rgba(77,163,255,0.2);
+}
+.feat-card h3{font-size:17px;font-weight:500;margin-bottom:8px;}
+.feat-card p{font-size:14px;color:var(--muted);line-height:1.65;}
+
+/* ——— HOW IT WORKS ——— */
+#howitworks{background:var(--navy);}
+.steps{display:flex;flex-direction:column;gap:0;margin-top:56px;position:relative;}
+.steps::before{
+  content:'';position:absolute;left:23px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,var(--blue),var(--teal),transparent);
+}
+.step{
+  display:flex;gap:28px;align-items:flex-start;
+  padding:0 0 40px 0;
+  opacity:0;transform:translateX(-24px);
+  transition:opacity 0.6s,transform 0.6s;
+}
+.step.visible{opacity:1;transform:translateX(0);}
+.step-num{
+  width:46px;height:46px;border-radius:50%;
+  background:var(--navy2);border:1px solid var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:18px;color:var(--blue);
+  flex-shrink:0;position:relative;z-index:1;
+}
+.step-body h3{font-size:17px;font-weight:500;margin-bottom:6px;padding-top:10px;}
+.step-body p{font-size:14px;color:var(--muted);}
+
+/* ——— ALERT SYSTEM ——— */
+#alerts{background:var(--navy2);}
+.alert-showcase{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  margin-top:48px;
+}
+@media(max-width:580px){.alert-showcase{grid-template-columns:1fr;}}
+.alert-card{
+  border-radius:12px;padding:28px 24px;text-align:center;
+  border:1px solid;
+  transition:transform 0.3s;
+}
+.alert-card:hover{transform:scale(1.03);}
+.alert-card.green{
+  background:rgba(29,206,160,0.07);border-color:rgba(29,206,160,0.25);
+}
+.alert-card.yellow{
+  background:rgba(245,166,35,0.07);border-color:rgba(245,166,35,0.25);
+}
+.alert-card.red{
+  background:rgba(226,75,74,0.07);border-color:rgba(226,75,74,0.3);
+  animation:redPulse 3s infinite;
+}
+.alert-icon{font-size:36px;margin-bottom:12px;}
+.alert-card h3{font-size:16px;font-weight:500;margin-bottom:6px;}
+.alert-card p{font-size:13px;color:var(--muted);}
+.alert-card.green h3{color:#1dcea0;}
+.alert-card.yellow h3{color:var(--amber);}
+.alert-card.red h3{color:var(--red);}
+
+/* ——— PRICING ——— */
+#pricing{background:var(--navy);}
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;margin-top:56px;
+}
+.price-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:12px;padding:32px;
+  transition:transform 0.3s,border-color 0.3s;
+}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.featured-price{
+  border-color:rgba(77,163,255,0.4);
+  background:linear-gradient(145deg,rgba(29,126,224,0.1),rgba(77,163,255,0.04));
+  position:relative;
+}
+.price-tag-top{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--blue);color:var(--navy);
+  font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;
+  white-space:nowrap;
+}
+.price-label{font-size:12px;color:var(--muted);letter-spacing:0.5px;margin-bottom:8px;}
+.price-val{
+  font-family:'DM Serif Display',serif;font-size:38px;color:var(--white);
+  line-height:1;margin-bottom:4px;
+}
+.price-period{font-size:13px;color:var(--muted);}
+.price-divider{height:0.5px;background:var(--border);margin:20px 0;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.price-features li{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;}
+.price-features li::before{content:'✓';color:var(--teal);font-weight:600;flex-shrink:0;}
+.price-profit{
+  margin-top:20px;padding:10px 14px;
+  background:rgba(29,206,160,0.08);border-radius:8px;
+  border:0.5px solid rgba(29,206,160,0.2);
+  font-size:13px;color:var(--teal);font-weight:500;
+}
+
+/* ——— IMPACT ——— */
+#impact{background:var(--navy2);}
+.impact-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;margin-top:56px;
+}
+.impact-card{
+  background:var(--card);border:0.5px solid var(--border);
+  border-radius:12px;padding:28px 20px;text-align:center;
+  transition:transform 0.3s;
+}
+.impact-card:hover{transform:translateY(-4px);}
+.impact-number{
+  font-family:'DM Serif Display',serif;
+  font-size:42px;color:var(--blue);line-height:1;margin-bottom:6px;
+}
+.impact-label{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* ——— ROADMAP ——— */
+#roadmap{background:var(--navy);}
+.roadmap-row{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  margin-top:56px;position:relative;
+}
+.roadmap-row::before{
+  content:'';position:absolute;
+  top:22px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,var(--blue),var(--teal));
+}
+@media(max-width:680px){
+  .roadmap-row{grid-template-columns:1fr 1fr;gap:16px;}
+  .roadmap-row::before{display:none;}
+}
+.roadmap-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 8px;
+}
+.r-dot{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:600;
+  position:relative;z-index:1;margin-bottom:14px;
+  transition:transform 0.3s;
+  cursor:default;
+}
+.roadmap-step:hover .r-dot{transform:scale(1.15);}
+.r-dot.done{background:var(--blue);color:var(--navy);}
+.r-dot.active{background:var(--teal);color:var(--navy);box-shadow:0 0 20px rgba(29,206,160,0.4);}
+.r-dot.upcoming{background:var(--navy3);color:var(--muted);border:1px solid var(--border);}
+.roadmap-step h4{font-size:13px;font-weight:500;margin-bottom:4px;}
+.roadmap-step p{font-size:11px;color:var(--muted);}
+
+/* ——— FUNDING ——— */
+#funding{
+  background:linear-gradient(135deg,var(--navy2) 0%,var(--navy3) 100%);
+  text-align:center;
+}
+.funding-amount{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(52px,8vw,90px);
+  color:var(--blue);line-height:1;
+  margin:32px 0 8px;
+  text-shadow:0 0 80px rgba(77,163,255,0.3);
+}
+.funding-etb{font-size:18px;color:var(--muted);margin-bottom:40px;}
+.use-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;margin-top:40px;text-align:left;
+}
+.use-item{
+  background:rgba(77,163,255,0.07);
+  border:0.5px solid rgba(77,163,255,0.2);
+  border-radius:10px;padding:18px;
+}
+.use-item h4{font-size:14px;font-weight:500;margin-bottom:4px;}
+.use-item p{font-size:12px;color:var(--muted);}
+
+/* ——— FOOTER ——— */
+footer{
+  background:var(--navy);
+  border-top:0.5px solid var(--border);
+  padding:40px 24px;text-align:center;
+}
+.footer-logo{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;color:var(--white);margin-bottom:10px;
+}
+.footer-logo span{color:var(--blue);}
+.footer-tagline{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.footer-quote{
+  font-family:'DM Serif Display',serif;
+  font-style:italic;font-size:15px;
+  color:var(--muted);max-width:520px;
+  margin:0 auto 24px;line-height:1.7;
+}
+.footer-copy{font-size:12px;color:rgba(122,155,196,0.5);}
+
+/* ——— MARKETING & PROMOTION ——— */
+#marketing{background:var(--navy2);}
+.promo-channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:56px;}
+.promo-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:28px;transition:transform 0.3s,background 0.3s,border-color 0.3s;position:relative;overflow:hidden;}
+.promo-card:hover{transform:translateY(-4px);background:var(--card-hover);border-color:rgba(77,163,255,0.3);}
+.promo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.promo-card.primary-channel::before{background:var(--blue);}
+.promo-card.digital-channel::before{background:var(--teal);}
+.promo-card.events-channel::before{background:var(--amber);}
+.promo-channel-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:16px;}
+.lbl-blue{background:rgba(77,163,255,0.12);color:var(--blue);border:0.5px solid rgba(77,163,255,0.25);}
+.lbl-teal{background:rgba(29,206,160,0.12);color:var(--teal);border:0.5px solid rgba(29,206,160,0.25);}
+.lbl-amber{background:rgba(245,166,35,0.12);color:var(--amber);border:0.5px solid rgba(245,166,35,0.25);}
+.promo-card h3{font-size:18px;font-weight:500;margin-bottom:10px;}
+.promo-card .promo-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:18px;}
+.promo-tactics{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.promo-tactics li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);line-height:1.5;}
+.tactic-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.dot-blue{background:var(--blue);}
+.dot-teal{background:var(--teal);}
+.dot-amber{background:var(--amber);}
+.promo-tactics li strong{color:var(--white);font-weight:500;}
+.core-message{margin-top:40px;background:linear-gradient(135deg,rgba(29,126,224,0.1),rgba(29,206,160,0.06));border:0.5px solid rgba(77,163,255,0.25);border-radius:12px;padding:32px;text-align:center;}
+.core-message-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.core-message-text{font-family:'DM Serif Display',serif;font-size:clamp(18px,3vw,26px);color:var(--white);line-height:1.4;font-style:italic;}
+.core-message-text em{color:var(--teal);font-style:normal;}
+.advantage-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:40px;}
+.adv-item{background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:20px 16px;text-align:center;transition:transform 0.3s;}
+.adv-item:hover{transform:translateY(-3px);}
+.adv-icon{font-size:28px;margin-bottom:10px;}
+.adv-title{font-size:13px;font-weight:500;color:var(--white);margin-bottom:4px;}
+.adv-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* ——— KEYFRAMES ——— */
+@keyframes slideDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(29,206,160,0.6);}50%{box-shadow:0 0 0 8px rgba(29,206,160,0);}}
+@keyframes redPulse{0%,100%{box-shadow:0 0 0 0 rgba(226,75,74,0);}50%{box-shadow:0 0 20px rgba(226,75,74,0.25);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+/* ——— SCROLL REVEAL ——— */
+.reveal{
+  opacity:0;transform:translateY(32px);
+  transition:opacity 0.7s,transform 0.7s;
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+
+/* ——— MOBILE ——— */
+@media(max-width:768px){
+  section{padding:72px 20px;}
+  .alert-showcase{grid-template-columns:1fr;}
+  .roadmap-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+
+
+<!-- BRAND HEADER -->
+<header class="brand-header">
+  <div class="brand-header-inner">
+    <div class="brand-logo-big">⚕ Surgi<span>Safe</span> AI</div>
+    <div class="brand-divider"></div>
+    <div class="brand-tagline-top">Predict Risk · Prevent Complications · Save Lives</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="pulse-dot"></div>
+      AI-Powered Surgical Intelligence · Live Monitoring
+    </div>
+    <h1>Predict Risk.<br/><em>Prevent Complications.</em><br/>Save Lives.</h1>
+    <p class="hero-sub">SurgiSafe AI integrates real-time vital signs, surgical video, and AI-driven alerts into one unified platform — transforming reactive monitoring into intelligent prevention.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#solution">Explore the Platform</a>
+      <a class="btn-ghost" href="#pricing">View Pricing</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-val">5<span>+</span></div>
+        <div class="stat-label">AI Data Streams</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val"><span>&lt;</span>2s</div>
+        <div class="stat-label">Alert Latency</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">3</div>
+        <div class="stat-label">Triage Levels</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">$1<span>k</span></div>
+        <div class="stat-label">Cost Per Unit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">⚠ The Problem</div>
+      <h2 class="section-heading">Surgical monitoring today<br/>is reactive — not predictive</h2>
+      <p class="section-sub">Critical conditions develop silently. Current systems don't talk to each other, and human attention has limits.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card reveal reveal-delay-1">
+        <div class="problem-icon">😴</div>
+        <h3>Human Fatigue</h3>
+        <p>Extended surgical procedures reduce medical staff attention and reaction time, increasing the window for undetected deterioration.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <div class="problem-icon">🔌</div>
+        <h3>Siloed Systems</h3>
+        <p>Vital monitors, video feeds, anesthesia machines, and hospital records operate independently — no integrated intelligence layer.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-3">
+        <div class="problem-icon">⏱</div>
+        <h3>Delayed Detection</h3>
+        <p>Critical events are identified only after deterioration is visible, leaving a costly gap between onset and clinical response.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-4">
+        <div class="problem-icon">🏥</div>
+        <h3>Resource Constraints</h3>
+        <p>Many hospitals in emerging markets lack advanced monitoring infrastructure, widening the patient safety gap significantly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">💡 The Solution</div>
+      <h2 class="section-heading">One intelligent platform.<br/>Total surgical oversight.</h2>
+      <p class="section-sub">SurgiSafe AI unifies every data stream into a predictive, real-time monitoring system built for the operating room.</p>
+    </div>
+    <div class="solution-grid" style="margin-top:56px;">
+      <div class="feat-card featured reveal">
+        <div class="feat-icon">🧠</div>
+        <h3>AI-Powered Anomaly Detection</h3>
+        <p>Our deep learning engine continuously processes vital signs and surgical video simultaneously, identifying deviations from safe parameters before they escalate. The system learns from each procedure, improving precision over time.</p>
+      </div>
+      <div class="feat-card reveal reveal-delay-1">
+        <div class="feat-icon">📊</div>
+        <h3>Real-Time Vitals Analysis</h3>
+        <p>Heart rate, oxygen saturation, blood pressure, and temperature — analyzed every second and cross-referenced against clinical baselines.</p>
+      </div>
+      <div class="feat-card reveal reveal-delay-2">
+        <div class="feat-icon">🎥</div>
+        <h3>Live Surgical Video Feed</h3>
+        <p>Computer vision processes the operative field in real time, flagging unexpected events and enriching the AI's contextual understanding.</p>
+      </div>
+      <div class="feat-card reveal reveal-delay-1">
+        <div class="feat-icon">💊</div>
+        <h3>Smart Drug Management</h3>
+        <p>Tracks intraoperative medication usage and automatically alerts pharmacy teams when supplies fall below critical thresholds.</p>
+      </div>
+      <div class="feat-card reveal reveal-delay-2">
+        <div class="feat-icon">🖥</div>
+        <h3>Unified OR Dashboard</h3>
+        <p>All streams — vitals, video, AI insights, alerts, and drug status — consolidated into a single, clean interface for the surgical team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">⚙ How It Works</div>
+      <h2 class="section-heading">From sensor to alert<br/>in under two seconds</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Sensor Data Collection</h3>
+          <p>Patient vitals are captured continuously via bedside monitors — heart rate, SpO₂, blood pressure, temperature — fed in real time to the AI engine.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Surgical Video Capture</h3>
+          <p>High-definition cameras record the operative field. Computer vision models analyze the footage frame-by-frame for procedural anomalies.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>AI Multi-Stream Processing</h3>
+          <p>Both data streams are fused and processed by our predictive model, which correlates events across sensors and video to build a holistic risk score.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Anomaly & Risk Detection</h3>
+          <p>When deviations cross clinical thresholds, the system classifies the situation as Normal, Warning, or Critical — instantly and automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Surgical Team Alert</h3>
+          <p>Color-coded visual and audio alerts are delivered to the OR dashboard immediately. The system also surfaces guideline-based action suggestions to assist decision-making — never to replace clinical judgment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALERT SYSTEM -->
+<section id="alerts">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">🚨 Smart Alert System</div>
+      <h2 class="section-heading">Triage intelligence,<br/>built into every alert</h2>
+      <p class="section-sub" style="margin:0 auto;">Three-tier color-coded alerts with audio signals ensure the right response at the right moment — no ambiguity, no delay.</p>
+    </div>
+    <div class="alert-showcase">
+      <div class="alert-card green reveal reveal-delay-1">
+        <div class="alert-icon">🟢</div>
+        <h3>Normal</h3>
+        <p>All vitals and surgical parameters are within expected ranges. No intervention required. System continues passive monitoring.</p>
+      </div>
+      <div class="alert-card yellow reveal reveal-delay-2">
+        <div class="alert-icon">🟡</div>
+        <h3>Warning</h3>
+        <p>One or more parameters trending toward risk thresholds. Surgical team is notified to increase attention. AI surfaces early recommendations.</p>
+      </div>
+      <div class="alert-card red reveal reveal-delay-3">
+        <div class="alert-icon">🔴</div>
+        <h3>Critical</h3>
+        <p>Immediate clinical action required. High-priority audio and visual alerts are triggered simultaneously. Guideline-based emergency support activates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">💰 Pricing Model</div>
+      <h2 class="section-heading">Designed for accessibility.<br/>Built for scale.</h2>
+      <p class="section-sub">Affordable installation with low monthly subscriptions — cost recovery in Year 1, compounding recurring revenue from Year 2 onward.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-label">Standard Hospital</div>
+        <div class="price-val">$700</div>
+        <div class="price-period">one-time installation</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>1 SurgiSafe AI unit</li>
+          <li>$70/month subscription</li>
+          <li>Full vitals + video monitoring</li>
+          <li>Real-time AI alerts</li>
+          <li>Dashboard access</li>
+        </ul>
+        <div class="price-profit">Year 1 Revenue: $1,540 · Profit: $275</div>
+      </div>
+      <div class="price-card featured-price reveal reveal-delay-2">
+        <div class="price-tag-top">Most Popular</div>
+        <div class="price-label">Teaching Hospital</div>
+        <div class="price-val">$2,400</div>
+        <div class="price-period">installation · 4 units</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>4 SurgiSafe AI units</li>
+          <li>$320/month subscription</li>
+          <li>Multi-OR coverage</li>
+          <li>Training & simulation mode</li>
+          <li>Priority support + updates</li>
+        </ul>
+        <div class="price-profit">Year 1 Revenue: $6,240 · Profit: $1,180</div>
+      </div>
+      <div class="price-card reveal reveal-delay-3">
+        <div class="price-label">Market Entry (20 Hospitals)</div>
+        <div class="price-val">$77,800</div>
+        <div class="price-period">Year 1 total revenue</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>50 units across 20 hospitals</li>
+          <li>$14,550 Year 1 profit</li>
+          <li>$36,800/yr recurring (Y2+)</li>
+          <li>Dedicated onboarding team</li>
+          <li>Custom SLA agreements</li>
+        </ul>
+        <div class="price-profit" style="color:var(--amber);background:rgba(245,166,35,0.08);border-color:rgba(245,166,35,0.2);">Hardware cost: $63,250 · 50 units</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">📈 Expected Impact</div>
+      <h2 class="section-heading">Measurable outcomes<br/>from day one</h2>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card reveal reveal-delay-1">
+        <div class="impact-number">↓40%</div>
+        <div class="impact-label">Reduction in delayed critical-event detection</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-2">
+        <div class="impact-number">↑95%</div>
+        <div class="impact-label">OR monitoring coverage vs. manual observation</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-3">
+        <div class="impact-number">&lt;2s</div>
+        <div class="impact-label">Average alert-to-notification latency</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-4">
+        <div class="impact-number">Y1</div>
+        <div class="impact-label">Full cost recovery for standard hospital installs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">🗺 Implementation Roadmap</div>
+      <h2 class="section-heading">Five phases to full deployment</h2>
+    </div>
+    <div class="roadmap-row">
+      <div class="roadmap-step reveal reveal-delay-1">
+        <div class="r-dot done">1</div>
+        <h4>Research & Design</h4>
+        <p>System architecture, clinical requirements</p>
+      </div>
+      <div class="roadmap-step reveal reveal-delay-2">
+        <div class="r-dot active">2</div>
+        <h4>AI Development</h4>
+        <p>Model training, sensor integration</p>
+      </div>
+      <div class="roadmap-step reveal reveal-delay-3">
+        <div class="r-dot upcoming">3</div>
+        <h4>Simulation Testing</h4>
+        <p>Synthetic OR scenarios, validation</p>
+      </div>
+      <div class="roadmap-step reveal reveal-delay-4">
+        <div class="r-dot upcoming">4</div>
+        <h4>Pilot Deployment</h4>
+        <p>Selected partner hospitals</p>
+      </div>
+      <div class="roadmap-step reveal reveal-delay-4">
+        <div class="r-dot upcoming">5</div>
+        <h4>Evaluate & Scale</h4>
+        <p>Feedback loop, national rollout</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING -->
+<section id="funding">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">💸 Investment Opportunity</div>
+      <h2 class="section-heading">Join us at the frontier<br/>of surgical safety</h2>
+      <div class="funding-amount">$50,000</div>
+      <div class="funding-etb">≈ 9,400,000 ETB · Seed Round</div>
+      <p style="font-size:17px;color:var(--muted);max-width:500px;margin:0 auto;">We are seeking seed funding to complete our prototype, execute pilot deployments, optimize the AI engine, and launch our go-to-market strategy across Ethiopia.</p>
+    </div>
+    <div class="use-grid">
+      <div class="use-item reveal reveal-delay-1">
+        <h4>🔧 Prototype Completion</h4>
+        <p>Finalize hardware assembly, software stack, and integration testing</p>
+      </div>
+      <div class="use-item reveal reveal-delay-2">
+        <h4>🏥 Pilot Deployment</h4>
+        <p>Install in 2–3 partner hospitals for live clinical validation</p>
+      </div>
+      <div class="use-item reveal reveal-delay-3">
+        <h4>🧠 AI Optimization</h4>
+        <p>Train models on real intraoperative data to improve predictive accuracy</p>
+      </div>
+      <div class="use-item reveal reveal-delay-4">
+        <h4>📣 Marketing Launch</h4>
+        <p>Website, conference presence, hospital sales outreach, and brand development</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARKETING & PROMOTION -->
+<section id="marketing">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">📢 Marketing &amp; Promotion Strategy</div>
+      <h2 class="section-heading">Three channels.<br/>One powerful message.</h2>
+      <p class="section-sub">We reach hospital decision-makers, surgical teams, and investors through a focused, multi-channel promotion strategy built on trust, demonstration, and results.</p>
+    </div>
+
+    <div class="promo-channels">
+      <div class="promo-card primary-channel reveal reveal-delay-1">
+        <div class="promo-channel-label lbl-blue">🏥 Primary Channel</div>
+        <h3>Direct Hospital Sales</h3>
+        <p class="promo-desc">Our primary growth engine — building trust through in-person demonstration and low-friction pilot programs that let results speak for themselves.</p>
+        <ul class="promo-tactics">
+          <li><div class="tactic-dot dot-blue"></div><div><strong>Live OR Demonstrations</strong> — Hands-on showcase of the system inside real operating environments for surgical directors and hospital administrators</div></li>
+          <li><div class="tactic-dot dot-blue"></div><div><strong>Low-Cost Pilot Programs</strong> — Subsidized entry pricing for early adopters to eliminate adoption risk and accelerate clinical validation</div></li>
+          <li><div class="tactic-dot dot-blue"></div><div><strong>Results-Based Trust Building</strong> — Document measurable safety outcomes from pilots and use them as proof cases for wider hospital rollout</div></li>
+          <li><div class="tactic-dot dot-blue"></div><div><strong>MOH &amp; NGO Partnerships</strong> — Collaborate with Ministry of Health and development organizations to reach public hospitals at scale</div></li>
+        </ul>
+      </div>
+
+      <div class="promo-card digital-channel reveal reveal-delay-2">
+        <div class="promo-channel-label lbl-teal">🌐 Digital Presence</div>
+        <h3>Online Brand Platform</h3>
+        <p class="promo-desc">A professional digital footprint that educates, builds credibility, and converts hospital decision-makers and investors before the first call.</p>
+        <ul class="promo-tactics">
+          <li><div class="tactic-dot dot-teal"></div><div><strong>Product Website</strong> — This platform: clinical proof, feature demo, pricing, and a clear value proposition for every target audience</div></li>
+          <li><div class="tactic-dot dot-teal"></div><div><strong>LinkedIn Strategy</strong> — Targeted outreach to hospital CEOs, medical directors, and health tech investors across Ethiopia and East Africa</div></li>
+          <li><div class="tactic-dot dot-teal"></div><div><strong>YouTube Channel</strong> — Product walkthrough videos, clinical use-case explainers, and recorded demo sessions to educate at scale</div></li>
+          <li><div class="tactic-dot dot-teal"></div><div><strong>WhatsApp &amp; Telegram</strong> — Direct communication with hospital procurement teams and medical professionals in local markets</div></li>
+        </ul>
+      </div>
+
+      <div class="promo-card events-channel reveal reveal-delay-3">
+        <div class="promo-channel-label lbl-amber">🎤 Industry Promotion</div>
+        <h3>Conferences &amp; Exhibitions</h3>
+        <p class="promo-desc">High-visibility presence at health innovation events to build brand authority, generate partnerships, and attract institutional investment.</p>
+        <ul class="promo-tactics">
+          <li><div class="tactic-dot dot-amber"></div><div><strong>Medical Conferences</strong> — Present SurgiSafe AI at national and regional surgical and anaesthesiology conferences to reach clinical leaders</div></li>
+          <li><div class="tactic-dot dot-amber"></div><div><strong>Health Tech Exhibitions</strong> — Exhibit at East African health innovation expos and startup showcases to attract media, partners, and investors</div></li>
+          <li><div class="tactic-dot dot-amber"></div><div><strong>Medical Supplier Partnerships</strong> — Co-market with surgical equipment distributors to leverage their existing hospital relationships</div></li>
+          <li><div class="tactic-dot dot-amber"></div><div><strong>Health Innovation Competitions</strong> — Actively compete in national and international health innovation challenges to gain visibility and funding exposure</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Core Marketing Message -->
+    <div class="core-message reveal">
+      <div class="core-message-label">🔥 Core Marketing Message</div>
+      <div class="core-message-text">"We help hospitals <em>prevent surgical complications</em> in real time — before they become emergencies."</div>
+    </div>
+
+    <!-- Competitive Advantages -->
+    <div style="margin-top:48px;" class="reveal">
+      <div class="section-eyebrow" style="margin-bottom:20px;">🏆 Why Hospitals Choose SurgiSafe AI</div>
+    </div>
+    <div class="advantage-row">
+      <div class="adv-item reveal reveal-delay-1">
+        <div class="adv-icon">⚡</div>
+        <div class="adv-title">Predictive Alerts</div>
+        <div class="adv-desc">Real-time risk warnings before critical events, not after</div>
+      </div>
+      <div class="adv-item reveal reveal-delay-2">
+        <div class="adv-icon">💵</div>
+        <div class="adv-title">Affordable Access</div>
+        <div class="adv-desc">Significantly lower cost than any imported monitoring system</div>
+      </div>
+      <div class="adv-item reveal reveal-delay-3">
+        <div class="adv-icon">🌍</div>
+        <div class="adv-title">Built for Africa</div>
+        <div class="adv-desc">Designed for Ethiopia and comparable emerging-market hospitals</div>
+      </div>
+      <div class="adv-item reveal reveal-delay-4">
+        <div class="adv-icon">🔌</div>
+        <div class="adv-title">Easy Integration</div>
+        <div class="adv-desc">Connects to existing hospital infrastructure — minimal disruption</div>
+      </div>
+      <div class="adv-item reveal reveal-delay-4">
+        <div class="adv-icon">📈</div>
+        <div class="adv-title">Scalable SaaS</div>
+        <div class="adv-desc">Subscription model compounds recurring revenue year after year</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⚕ Surgi<span>Safe</span> AI</div>
+  <div class="footer-tagline">Predict Risk · Prevent Complications · Save Lives</div>
+  <div class="footer-quote">"Cost recovery in Year 1 enables adoption — recurring revenue drives long-term growth and lasting impact on patient safety across Africa and beyond."</div>
+  <div class="footer-copy">© 2025 SurgiSafe AI. Health Innovation Competition Project.</div>
+</footer>
+
+<script>
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const stepEls = document.querySelectorAll('.step');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+[...revealEls, ...stepEls].forEach(el => observer.observe(el));
+
+// Animated counter for hero stats
+function animateCounter(el, target, suffix, prefix) {
+  let start = 0;
+  const duration = 1800;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.innerHTML = (prefix||'') + Math.floor(start) + (suffix||'');
+  }, 16);
+}
+
+
+</script>
+</body>
+</html>
